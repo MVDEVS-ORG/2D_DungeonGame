@@ -66,6 +66,8 @@ public class DungeonGenerator : MonoBehaviour
         // Spawn items and the player in the dungeon
         itemSpawner.SpawnItems(dungeonGrid, roomCenters, tileSize, dungeonParent);
         SpawnPlayer();
+        //Need to Spawn enemies also once the player is spawned
+        //Every Enemy needs to be different each room haas a different enemy
     }
 
     private void FillDungeonWithWalls()
