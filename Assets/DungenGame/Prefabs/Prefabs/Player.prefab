@@ -264,6 +264,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6653498274230051807}
   - component: {fileID: 3465507221897910154}
+  - component: {fileID: 8279979172435645928}
   m_Layer: 0
   m_Name: Trisul
   m_TagString: Weapon
@@ -340,6 +341,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &8279979172435645928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2730618423908314086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16384b7c6f1fd6443b622c087b0e2b5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectile: {fileID: 1234498604744397874, guid: e125e72f0b6c13e4fbb34e4470940e7d, type: 3}
+  shotPoints: {fileID: 6370967940209098771}
+  player: {fileID: 3157354403695828903}
+  timebtwShots: 0.4
 --- !u!1 &2963958470683632807
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,6 +9,8 @@ TagManager:
   - Weapon
   - Enemy
   - Boss
+  - Walls
+  - Items
   layers:
   - Default
   - TransparentFX
@@ -54,4 +56,7 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 188761085
+    locked: 0
+  - name: Bullet
+    uniqueID: 4260645565
     locked: 0
