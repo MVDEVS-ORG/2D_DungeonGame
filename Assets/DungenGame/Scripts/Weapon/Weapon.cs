@@ -9,14 +9,13 @@ namespace MVDEV.DungeonGame.Scripts.Weapon
         public Transform shotPoints;
         public Player player;
         public float timebtwShots;
-
+        public PlaceTorch torchPlacement;
         float shotTime;
         Animator camAnim;
 
         private void Start()
         {
-            //camAnim = Camera.main.GetComponent<Animator>();
-            player = GetComponent<Player>();
+            torchPlacement = player.GetComponent<PlaceTorch>();
         }
 
         private void Update()
@@ -26,7 +25,7 @@ namespace MVDEV.DungeonGame.Scripts.Weapon
             Quaternion rotation = Quaternion.AngleAxis(angle-90, Vector3.forward);
             transform.rotation = rotation; 
 
-            if(Input.GetMouseButton(0)  && Time.time >= shotTime)
+            if(Input.GetMouseButton(0)  && Time.time >= shotTime && !torchPlacement.placeTorch)
             {
                 Instantiate(projectile, shotPoints.position, transform.rotation);
                 //camAnim.SetTrigger("shake");

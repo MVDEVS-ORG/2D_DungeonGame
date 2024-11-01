@@ -357,6 +357,7 @@ MonoBehaviour:
   shotPoints: {fileID: 6370967940209098771}
   player: {fileID: 3157354403695828903}
   timebtwShots: 0.4
+  torchPlacement: {fileID: 0}
 --- !u!1 &2963958470683632807
 GameObject:
   m_ObjectHideFlags: 0
@@ -653,6 +654,7 @@ GameObject:
   - component: {fileID: 3756723699623185882}
   - component: {fileID: 811104438748013765}
   - component: {fileID: 3157354403695828903}
+  - component: {fileID: 1861841121674899511}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -792,6 +794,21 @@ MonoBehaviour:
   fullHeart: {fileID: 0}
   emptyHeart: {fileID: 0}
   hurtAnim: {fileID: 0}
+--- !u!114 &1861841121674899511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4943137031873948768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebf5cfc4693baf643865a1447f983c4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noOfTorches: 10
+  torch: {fileID: 3603600143528288994, guid: 1fbf1d78609fd204783c15bb4d39bc83, type: 3}
+  placeTorch: 0
 --- !u!1 &5262773649493590555
 GameObject:
   m_ObjectHideFlags: 0
