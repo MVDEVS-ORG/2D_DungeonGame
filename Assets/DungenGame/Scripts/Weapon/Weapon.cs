@@ -1,4 +1,5 @@
 using MVDEV.DungeonGame.Scripts.PlayerScripts;
+using MVDEV.DungeonGame.Scripts.PlayerScripts.Interface;
 using UnityEngine;
 
 namespace MVDEV.DungeonGame.Scripts.Weapon
@@ -7,7 +8,7 @@ namespace MVDEV.DungeonGame.Scripts.Weapon
     {
         public GameObject projectile;
         public Transform shotPoints;
-        public Player player;
+        public IPlayer player;
         public float timebtwShots;
         public PlaceTorch torchPlacement;
         float shotTime;
@@ -15,7 +16,7 @@ namespace MVDEV.DungeonGame.Scripts.Weapon
 
         private void Start()
         {
-            torchPlacement = player.GetComponent<PlaceTorch>();
+            torchPlacement = player.GetPlaceTorch();
         }
 
         private void Update()

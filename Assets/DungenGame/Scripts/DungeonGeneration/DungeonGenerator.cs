@@ -145,7 +145,7 @@ namespace MVDEV.DungeonGame.Scripts.DungeonGeneration
             {
                 Vector2Int playerRoom = roomCenters[Random.Range(0, roomCenters.Count)];
                 Vector3 playerPosition = new Vector3(playerRoom.x * tileSize, playerRoom.y * tileSize, -1);
-                cam.playerTransform = Instantiate(playerPrefab, playerPosition, Quaternion.identity).transform;
+                cam.SetPlayerTransform(Instantiate(playerPrefab, playerPosition, Quaternion.identity).transform);
             }
         }
     }
