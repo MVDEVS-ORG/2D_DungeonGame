@@ -1,32 +1,42 @@
 using UnityEngine.UI;
 using UnityEngine;
+using MVDEV.DungeonGame.Scripts.PlayerScripts.Interface;
 
 namespace MVDEV.DungeonGame.Scripts.PlayerScripts
 {
-    public class Player : MonoBehaviour
+    public class Player : MonoBehaviour, IPlayer
     {
-        public float speed;
-        public int health;
-        public Image[] hearts;
-        public Sprite fullHeart;
-        public Sprite emptyHeart;
+        [SerializeField] private float _speed;
+        [SerializeField] private int _health;
+        [SerializeField] private Image[] _hearts;
+        [SerializeField] private Sprite _fullHeart;
+        [SerializeField] private Sprite _emptyHeart;
+        [SerializeField] private int _manaPoints;
+        [SerializeField] private int _manaRecoveryRate;
 
-        public Animator hurtAnim;
+        [SerializeField] private Animator _hurtAnim;
 
-        Rigidbody2D rb;
-        Vector2 moveAmount;
-        Animator anim;
+        private PlaceTorch _placeTorch;
+        private Rigidbody2D rb;
+        private Vector2 moveAmount;
+        private Animator anim;
+
+        
+        public float PlayerSpeed => _speed;
+        public int PlayerHealth => _health;
+        public int ManaPoint => _manaPoints;
 
         private void Start()
         {
             rb = GetComponent<Rigidbody2D>();
             anim = GetComponent<Animator>();
+            _placeTorch = GetComponent<PlaceTorch>();
         }
 
         private void Update()
         {
             Vector2 moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-            moveAmount = moveInput.normalized * speed;
+            moveAmount = moveInput.normalized * _speed;
 
             if (moveInput != Vector2.zero)
             {
@@ -43,39 +53,44 @@ namespace MVDEV.DungeonGame.Scripts.PlayerScripts
             rb.MovePosition(rb.position + moveAmount * Time.fixedDeltaTime);
         }
 
-        public void TakeDamage(int damageAmount)
+        void IPlayer.TakeDamage(int damageAmount)
         {
-            health -= damageAmount;
-            UpdateHealthUI(health);
-            hurtAnim.SetTrigger("Hurt");
-            if (health <= 0)
+            _health -= damageAmount;
+            (this as IPlayer).UpdateHealthUI(_health);
+            _hurtAnim.SetTrigger("Hurt");
+            if (_health <= 0)
             {
                 Destroy(gameObject);
             }
         }
 
-        public void UpdateHealthUI(int currentHealth)
+        void IPlayer.UpdateHealthUI(int currentHealth)
         {
-            for (int i = 0; i < hearts.Length; i++)
+            for (int i = 0; i < _hearts.Length; i++)
             {
                 if (i < currentHealth)
                 {
-                    hearts[i].sprite = fullHeart;
+                    _hearts[i].sprite = _fullHeart;
                 }
             }
         }
 
-        public void Heal(int amount)
+        void IPlayer.Heal(int amount)
         {
-            if (amount + health > 5)
+            if (amount + _health > 5)
             {
-                health = 5;
+                _health = 5;
             }
             else
             {
-                health += amount;
+                _health += amount;
             }
-            UpdateHealthUI(health);
+            (this as IPlayer).UpdateHealthUI(_health);
+        }
+
+        PlaceTorch IPlayer.GetPlaceTorch()
+        {
+            return _placeTorch;
         }
 
         /* public void ChangeWeapon(){
