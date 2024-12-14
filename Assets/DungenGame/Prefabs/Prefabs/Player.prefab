@@ -368,7 +368,7 @@ MonoBehaviour:
   projectile: {fileID: 1234498604744397874, guid: e125e72f0b6c13e4fbb34e4470940e7d, type: 3}
   shotPoints: {fileID: 6370967940209098771}
   timebtwShots: 0.4
-  torchPlacement: {fileID: 0}
+  torchPlacement: {fileID: 1861841121674899511}
 --- !u!1 &2963958470683632807
 GameObject:
   m_ObjectHideFlags: 0
