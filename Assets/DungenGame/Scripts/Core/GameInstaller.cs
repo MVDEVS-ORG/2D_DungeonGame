@@ -15,6 +15,7 @@ namespace MVDEV.DungeonGame.Scripts.Core
             Container.Bind<PlayerModel>().AsSingle();
             Container.Bind<PlayerView>().FromComponentInHierarchy().AsSingle();
             Container.Bind<PlayerController>().FromComponentInHierarchy().AsSingle();
+            Container.Bind<PlayerStatsController>().FromComponentInHierarchy().AsSingle();
         }
     }
 }

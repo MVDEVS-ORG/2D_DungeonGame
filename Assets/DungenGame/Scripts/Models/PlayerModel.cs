@@ -12,12 +12,18 @@ namespace MVDEV.DungeonGame.Scripts.Models
         public int Exp { get; private set; }
 
         private int _expLevelMultiplier = 10;
+        private float _maxHunger = 100;
+        private float _maxStamina = 100;
+        private float _maxHealth = 100;
 
-        public PlayerModel()
+        public void Init(float maxHealth, float maxStamina, float maxHunger)
         {
-            Health = 100;
-            Stamina = 100;
-            Hunger = 100;
+            _maxHealth = maxHealth;
+            _maxHunger = maxHunger;
+            _maxStamina = maxStamina;
+            Health = _maxHealth;
+            Stamina = _maxStamina;
+            Hunger = _maxHunger;
             Level = 1;
         }
 
@@ -29,6 +35,26 @@ namespace MVDEV.DungeonGame.Scripts.Models
         public void ConsumeStamina(float amount)
         {
             Stamina = Mathf.Max(0, Stamina - amount);
+        }
+
+        public void DecreaseHunger(float amount)
+        {
+            Hunger = Mathf.Max(0, Hunger - amount);
+        }
+
+        public void RestoreHunger(float amount) 
+        {
+            Hunger = Mathf.Min(Hunger + amount, _maxHunger);
+        }
+
+        public void RestoreStamina(float amount)
+        {
+            Stamina = Mathf.Min(Stamina + amount, _maxStamina);
+        }
+
+        public void RestoreHealth(float amount)
+        {
+            Health = Mathf.Min(_maxHealth, Health + amount);
         }
 
         public void GainExperience(int exp)
