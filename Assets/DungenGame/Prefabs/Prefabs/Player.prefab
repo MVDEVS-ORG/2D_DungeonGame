@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3142885963589502930}
   - component: {fileID: 5904033879958452208}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: shadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,7 +97,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7472707714883041045}
   - component: {fileID: 7135349754069274838}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Eye Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -184,7 +184,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4532980045599744130}
   - component: {fileID: 6799173288012599047}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -379,7 +379,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6189054178055190080}
   - component: {fileID: 6593169500292652526}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Leg Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -466,7 +466,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1445710257220435301}
   - component: {fileID: 6030241968764113777}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Eye Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -553,7 +553,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8447609374987157980}
   - component: {fileID: 735412752017035555}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: leg Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -640,7 +640,7 @@ GameObject:
   m_Component:
   - component: {fileID: 237362689412183154}
   - component: {fileID: 3659411564800040870}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: PlacementAreaRenderer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -814,7 +814,8 @@ GameObject:
   - component: {fileID: 811104438748013765}
   - component: {fileID: 3157354403695828903}
   - component: {fileID: 1861841121674899511}
-  m_Layer: 3
+  - component: {fileID: 1900884307672449846}
+  m_Layer: 0
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -831,8 +832,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 12.3, y: -1.2, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3142885963589502930}
   - {fileID: 6189054178055190080}
@@ -899,7 +900,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4943137031873948768}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -950,7 +951,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9624125713551b42a084fbc19405bea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 8
+  _speed: 3
   _health: 5
   _hearts: []
   _fullHeart: {fileID: -948291172, guid: c857cf359622d5748baaa2fed63af594, type: 3}
@@ -979,6 +980,68 @@ MonoBehaviour:
   placementDistance: 10
   placementAreaRenderer: {fileID: 3659411564800040870}
   circleSegments: 11
+--- !u!60 &1900884307672449846
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4943137031873948768}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 1.0403175, y: 0.9117861}
+      - {x: 1.6536255, y: 1.2050922}
+      - {x: 2.085659, y: 2.4263644}
+      - {x: 1.7966576, y: 4.328179}
+      - {x: -0.119485855, y: 4.9074564}
+      - {x: -1.5836315, y: 4.4028406}
+      - {x: -2.165926, y: 2.487439}
+      - {x: -1.6833954, y: 1.4083261}
+      - {x: -0.8357601, y: 0.9072108}
+      - {x: -1.2975836, y: 0.18952397}
+      - {x: -0.66462326, y: -0.5063312}
+      - {x: -0.6465983, y: -1.0947069}
+      - {x: 0.60696375, y: -1.1158593}
+      - {x: 0.7330246, y: -0.48113513}
+      - {x: 1.2856436, y: 0.20147246}
+  m_UseDelaunayMesh: 0
 --- !u!1 &5262773649493590555
 GameObject:
   m_ObjectHideFlags: 0
@@ -989,7 +1052,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6126520037643999829}
   - component: {fileID: 4114709611825063285}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Hand Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1076,7 +1139,7 @@ GameObject:
   m_Component:
   - component: {fileID: 808651360617020909}
   - component: {fileID: 5924108116792655837}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1166,7 +1229,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3803672947128927694}
   - component: {fileID: 177659708759037325}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Light 2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1205,7 +1268,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.929
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 3.13
+  m_Intensity: 1
   m_LightVolumeIntensity: 0.15
   m_LightVolumeEnabled: 0
   m_ApplyToSortingLayers: 00000000fd43400b
@@ -1229,7 +1292,7 @@ MonoBehaviour:
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
-  m_PointLightOuterRadius: 63.25
+  m_PointLightOuterRadius: 5
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
   m_ShapeLightParametricRadius: 1
@@ -1250,7 +1313,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7069644355352061692}
   - component: {fileID: 3321831951093240095}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Hand Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -16,7 +16,7 @@ namespace MVDEV.DungeonGame.Scripts.DungeonGeneration
         public List<ItemData> items;               // List of item types with rarity
         public Transform dungeonParent;            // Parent for item objects
 
-        public void SpawnItems(TileType[,] dungeonGrid, List<Vector2Int> roomCenters, float tileSize, Transform dungeonParent)
+        /*public void SpawnItems(TileType[,] dungeonGrid, List<Vector2Int> roomCenters, float tileSize, Transform dungeonParent)
         {
             foreach (var roomCenter in roomCenters)
             {
@@ -42,7 +42,7 @@ namespace MVDEV.DungeonGame.Scripts.DungeonGeneration
                     }
                 }
             }
-        }
+        }*/
 
         private ItemData SelectRandomItem()
         {

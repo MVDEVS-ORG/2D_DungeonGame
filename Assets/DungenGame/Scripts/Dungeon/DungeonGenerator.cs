@@ -1,153 +1,152 @@
-using System.Collections.Generic;
 using UnityEngine;
-using System.Threading.Tasks;
-using MVDEV.DungeonGame.Scripts.PlayerScripts;
+using UnityEngine.Tilemaps;
+using System.Collections.Generic;
 
-namespace MVDEV.DungeonGame.Scripts.DungeonGeneration
+public class DungeonGenerator : MonoBehaviour
 {
-    public enum TileType { Wall, Room }
-    public class DungeonGenerator : MonoBehaviour
+    [Header("Tilemaps and RuleTiles")]
+    public Tilemap floorTilemap;
+    public Tilemap wallTilemap;
+    public RuleTile floorRuleTile;
+    public RuleTile wallRuleTile;
+
+    [Header("Dungeon Settings")]
+    public int width = 50;
+    public int height = 50;
+    public int maxRooms = 10;
+    public int roomMinSize = 5;
+    public int roomMaxSize = 10;
+
+    private bool[,] floorGrid;
+    private List<RectInt> rooms = new List<RectInt>();
+
+    void Start()
     {
-        public GameObject wallPrefab;               // Prefab for the dungeon wall
-        public GameObject floorPrefab;              // Prefab for the dungeon floor (rooms, corridors)
-        public Transform dungeonParent;             // Parent for dungeon tiles
-        public int dungeonWidth = 50;               // Width of the dungeon grid
-        public int dungeonHeight = 50;              // Height of the dungeon grid
-        public int maxRooms = 10;                   // Maximum number of rooms
-        public int roomSizeMin = 5;                 // Minimum room size
-        public int roomSizeMax = 10;                // Maximum room size
-        public float tileSize = 10f;                // Scale size of each tile (e.g., 10x10 units)
+        GenerateDungeon();
+    }
 
-        public GameObject playerPrefab;             // Prefab for the player
-        public ItemSpawner itemSpawner;             // Reference to the ItemSpawner script
-        public CameraFollow cam;
+    void GenerateDungeon()
+    {
+        floorGrid = new bool[width, height];
+        rooms.Clear();
 
-        private TileType[,] dungeonGrid;
-        private List<Vector2Int> roomCenters = new List<Vector2Int>();
-
-        private async void Start()
+        for (int i = 0; i < maxRooms; i++)
         {
-            await GenerateDungeon();
-        }
-        public async Task GenerateDungeon()
-        {
-            // Initialize the dungeon grid with walls
-            dungeonGrid = new TileType[dungeonWidth, dungeonHeight];
-            FillDungeonWithWalls();
+            int w = Random.Range(roomMinSize, roomMaxSize);
+            int h = Random.Range(roomMinSize, roomMaxSize);
+            int x = Random.Range(1, width - w - 1);
+            int y = Random.Range(1, height - h - 1);
 
-            // Generate rooms and corridors
-            Vector2Int prevRoomCenter = Vector2Int.zero;
-            for (int roomCount = 0; roomCount < maxRooms; roomCount++)
+            RectInt newRoom = new RectInt(x, y, w, h);
+            bool overlaps = false;
+
+            foreach (var room in rooms)
             {
-                int roomWidth = Random.Range(roomSizeMin, roomSizeMax);
-                int roomHeight = Random.Range(roomSizeMin, roomSizeMax);
-
-                Vector2Int roomStartPosition = new Vector2Int(
-                    Random.Range(1, dungeonWidth - roomWidth - 1),
-                    Random.Range(1, dungeonHeight - roomHeight - 1)
-                );
-
-                await GenerateRoom(roomStartPosition, roomWidth, roomHeight);
-                roomCenters.Add(roomStartPosition + new Vector2Int(roomWidth / 2, roomHeight / 2));
-
-                // Connect rooms with corridors if not the first room
-                if (roomCount > 0)
+                if (newRoom.Overlaps(room))
                 {
-                    Vector2Int newRoomCenter = roomStartPosition + new Vector2Int(roomWidth / 2, roomHeight / 2);
-                    await GenerateCorridor(prevRoomCenter, newRoomCenter);
-                    prevRoomCenter = newRoomCenter;
-                }
-                else
-                {
-                    prevRoomCenter = roomStartPosition + new Vector2Int(roomWidth / 2, roomHeight / 2);
+                    overlaps = true;
+                    break;
                 }
             }
 
-            // Build the dungeon in Unity from the dungeonGrid array
-            BuildDungeon();
-
-            // Spawn items and the player in the dungeon
-            itemSpawner.SpawnItems(dungeonGrid, roomCenters, tileSize, dungeonParent);
-            SpawnPlayer();
-            //Need to Spawn enemies also once the player is spawned
-            //Every Enemy needs to be different each room haas a different enemy
-        }
-
-        private void FillDungeonWithWalls()
-        {
-            for (int x = 0; x < dungeonWidth; x++)
+            if (!overlaps)
             {
-                for (int y = 0; y < dungeonHeight; y++)
+                rooms.Add(newRoom);
+                CarveRoom(newRoom);
+
+                if (rooms.Count > 1)
                 {
-                    dungeonGrid[x, y] = TileType.Wall;
+                    Vector2Int prevCenter = GetRoomCenter(rooms[rooms.Count - 2]);
+                    Vector2Int currCenter = GetRoomCenter(newRoom);
+                    CarveCorridor(prevCenter, currCenter);
                 }
             }
         }
 
-        private async Task GenerateRoom(Vector2Int startPosition, int width, int height)
+        PaintTiles();
+    }
+
+    void CarveRoom(RectInt room)
+    {
+        for (int x = room.xMin; x < room.xMax; x++)
         {
-            for (int x = startPosition.x; x < startPosition.x + width; x++)
+            for (int y = room.yMin; y < room.yMax; y++)
             {
-                for (int y = startPosition.y; y < startPosition.y + height; y++)
-                {
-                    dungeonGrid[x, y] = TileType.Room;
-                }
-            }
-        }
-
-        private async Task GenerateCorridor(Vector2Int start, Vector2Int end)
-        {
-            Vector2Int currentPos = start;
-
-            while (currentPos != end)
-            {
-                dungeonGrid[currentPos.x, currentPos.y] = TileType.Room;
-
-                if (currentPos.x != end.x)
-                {
-                    currentPos.x += currentPos.x < end.x ? 1 : -1;
-                }
-                else if (currentPos.y != end.y)
-                {
-                    currentPos.y += currentPos.y < end.y ? 1 : -1;
-                }
-
-                await Task.Yield();
-            }
-        }
-
-        private void BuildDungeon()
-        {
-            for (int x = 0; x < dungeonWidth; x++)
-            {
-                for (int y = 0; y < dungeonHeight; y++)
-                {
-                    Vector2 tilePosition = new Vector2(x * tileSize, y * tileSize);
-                    GameObject tile;
-
-                    if (dungeonGrid[x, y] == TileType.Wall)
-                    {
-                        tile = Instantiate(wallPrefab, tilePosition, Quaternion.identity, dungeonParent);
-                    }
-                    else
-                    {
-                        tile = Instantiate(floorPrefab, tilePosition, Quaternion.identity, dungeonParent);
-                    }
-
-                    tile.transform.localScale = new Vector3(tileSize, tileSize, 1);
-                }
-            }
-        }
-
-        private void SpawnPlayer()
-        {
-            if (roomCenters.Count > 0)
-            {
-                Vector2Int playerRoom = roomCenters[Random.Range(0, roomCenters.Count)];
-                Vector3 playerPosition = new Vector3(playerRoom.x * tileSize, playerRoom.y * tileSize, -1);
-                cam.SetPlayerTransform(Instantiate(playerPrefab, playerPosition, Quaternion.identity).transform);
+                floorGrid[x, y] = true;
             }
         }
     }
 
+    void CarveCorridor(Vector2Int from, Vector2Int to)
+    {
+        Vector2Int pos = from;
+
+        while (pos.x != to.x)
+        {
+            floorGrid[pos.x, pos.y] = true;
+            pos.x += (to.x > pos.x) ? 1 : -1;
+        }
+
+        while (pos.y != to.y)
+        {
+            floorGrid[pos.x, pos.y] = true;
+            pos.y += (to.y > pos.y) ? 1 : -1;
+        }
+
+        floorGrid[to.x, to.y] = true;
+    }
+
+    Vector2Int GetRoomCenter(RectInt room)
+    {
+        return new Vector2Int(
+            room.xMin + room.width / 2,
+            room.yMin + room.height / 2
+        );
+    }
+
+    void PaintTiles()
+    {
+        floorTilemap.ClearAllTiles();
+        wallTilemap.ClearAllTiles();
+
+        for (int x = 1; x < width - 1; x++)
+        {
+            for (int y = 1; y < height - 1; y++)
+            {
+                Vector3Int tilePos = new Vector3Int(x, y, 0);
+
+                if (floorGrid[x, y])
+                {
+                    floorTilemap.SetTile(tilePos, floorRuleTile);
+                }
+                else if (IsNextToFloor(x, y))
+                {
+                    wallTilemap.SetTile(tilePos, wallRuleTile);
+                }
+            }
+        }
+
+        floorTilemap.RefreshAllTiles();
+        wallTilemap.RefreshAllTiles();
+    }
+
+    bool IsNextToFloor(int x, int y)
+    {
+        for (int dx = -1; dx <= 1; dx++)
+        {
+            for (int dy = -1; dy <= 1; dy++)
+            {
+                int nx = x + dx;
+                int ny = y + dy;
+
+                if (nx >= 0 && nx < width && ny >= 0 && ny < height)
+                {
+                    if (floorGrid[nx, ny])
+                        return true;
+                }
+            }
+        }
+
+        return false;
+    }
 }
