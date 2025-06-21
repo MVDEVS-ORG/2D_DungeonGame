@@ -30,9 +30,10 @@ namespace MVDEV.DungeonGame.Scripts.Weapon
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if(collision.tag == "Enemy")
+            if(collision.tag == "EnemyAI")
             {
-                collision.GetComponent<Enemy>().TakeDamage(damage);
+                //collision.GetComponent<EnemyAI>().TakeDamage(damage);
+                Destroy(collision.gameObject);
                 DestroyBullet();
             }
             if(collision.tag == "Boss")
